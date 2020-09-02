@@ -24,13 +24,17 @@ For the Voice Recognition Part, pyttsx3 is used and Window's own sapi5 api is us
 I chose the female voice XD. You can choose the male voice too just changing voices[1].id to voices[0].id
 '''
 
+
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
+
+
 '''
 the engine will dictate the audio query as per the code.
 The runAndWait function simply waits for the user to saythe command.
 '''
+
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -57,18 +61,21 @@ def userName():
     name = sr.Recognizer()
     with sr.Microphone() as source:
         print("What is your name?")
+        speak("What is your name?")
         name.pause_threshold = 0.8
         audio = name.listen(source)
 
     try:
-        print("Recognizing Command...")
+        print("Recognizing Name...")
+        speak("Recognizing Name")
         nameQuery = name.recognize_google(audio, language='en-in')
         print(f"Current User: {nameQuery}\n")
 
     except Exception as e:
         # print(e)
         print("Say that again please...")
-        return "None"
+        return "Anonymous"
+
     return nameQuery
 
 
@@ -77,18 +84,21 @@ def takeCommand():
 
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening...")
+        print("I'm Listening...")
+        speak(f"{nameQuery}, I'm Listening")
         r.pause_threshold = 1
         audio = r.listen(source)
 
     try:
         print("Recognizing Command...")
         query = r.recognize_google(audio, language='en-in')
-        print(f"User said: {query}\n")
+        print(f"{nameQuery}, you asked me to {query}\n")
+        speak(f"{nameQuery}, you asked me to {query}\n")
 
     except Exception as e:
         # print(e)
         print("Couldn't recognize. Say that again.")
+        speak("Couldn't recognize. Say that again.")
         return "None"
     return query
 
@@ -112,21 +122,22 @@ if __name__ == "__main__":
 
         # Logic for executing tasks based on query
         if 'open wikipedia' in query:
+            webbrowser.get(chromedir).open("wikipedia.com")
+        elif 'search' in query:
             speak('Searching Wikipedia...')
-            query = query.replace("wikipedia", "")
+            query = query.replace("search", "")
             results = wikipedia.summary(query, sentences=2)
             speak("According to Wikipedia")
             print(results)
             speak(results)
-
         elif 'open youtube' in query:
             webbrowser.get(chromedir).open("youtube.com")
 
         elif 'open google' in query:
-            webbrowser.open("google.com")
+            webbrowser.get(chromedir).open("google.com")
 
         elif 'open stackoverflow' in query:
-            webbrowser.open("stackoverflow.com")
+            webbrowser.get(chromedir).open("stackoverflow.com")
 
         elif 'play music' in query:
             music_dir = 'D:\\MEDIA\\MUSIC'
@@ -147,6 +158,7 @@ if __name__ == "__main__":
             os.startfile(codePath)
 
         elif 'exit' in query:
+            speak(f"Have a nice day {nameQuery}, Great to talk with you.")
             exit()
 
         elif 'email to Sagnik' in query:
