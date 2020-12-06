@@ -5,12 +5,15 @@ import wikipedia
 import webbrowser
 import os
 import smtplib
+
 '''
 pyttsx3 for voice command engine
 speech_recognition defines itself
 the webbrowser is imported in case someone don't have chrome then it can be used, but here the setup of chrome is done.
 '''
+
 chromedir = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+
 '''
 In my PC, the chrome is in the above noted directory and the directory is in pretty standrad location but if you want to change the directory, just change the path. 
 And change the variable and its path if you need to use another browser.
@@ -24,17 +27,14 @@ For the Voice Recognition Part, pyttsx3 is used and Window's own sapi5 api is us
 I chose the female voice XD. You can choose the male voice too just changing voices[1].id to voices[0].id
 '''
 
-
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-
 
 '''
 the engine will dictate the audio query as per the code.
 The runAndWait function simply waits for the user to saythe command.
 '''
-
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -117,7 +117,6 @@ if __name__ == "__main__":
     wishMe()
     while True:
         # if 1:
-
         query = takeCommand().lower()
 
         # Logic for executing tasks based on query
@@ -149,6 +148,9 @@ if __name__ == "__main__":
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir, the time is {strTime}")
 
+        elif 'the name' in query:
+            speak(f"Sir, Satyaki is a First Year Student of Manipal University")
+
         elif 'show mother' in query:
             showMother = "ma.png"
             os.startfile(showMother)
@@ -168,6 +170,7 @@ if __name__ == "__main__":
                 to = "sagnikmitra123@gmail.com"
                 sendEmail(to, content)
                 speak("Email has been sent!")
+                
             except Exception as e:
                 print(e)
                 speak("Sorry Sagnik, I am unable to send the email")
